@@ -1,6 +1,4 @@
-const number = 10;
-if (number % 2 === 0) {
-  console.log("Even number");
-} else {
-  console.log("Odd number");
+function maxDepth(root) {
+  if (!root) return 0;
+  return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
 }
