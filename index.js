@@ -1,14 +1,33 @@
-function findRedundantConnection(edges) {
-  const parent = new Array(edges.length + 1).fill(-1);
-  for (const edge of edges) {
-    const u = find(parent, edge[0]);
-    const v = find(parent, edge[1]);
-    if (u === v) return edge;
-    parent[u] = v;
+function totalNQueens(n) {
+  let count = 0;
+  const board = Array.from({ length: n }, () =>
+    Array.from({ length: n }, () => "."),
+  );
+  backtrack(0);
+  return count;
+  function backtrack(row) {
+    if (row === n) {
+      count++;
+      return;
+    }
+    for (let col = 0; col < n; col++) {
+      if (isValid(row, col)) {
+        board[row][col] = "Q";
+        backtrack(row + 1);
+        board[row][col] = ".";
+      }
+    }
   }
-  return [];
-}
-function find(parent, i) {
-  if (parent[i] === -1) return i;
-  return find(parent, parent[i]);
+  function isValid(row, col) {
+    for (let i = 0; i < row; i++) {
+      if (board[i][col] === "Q") return false;
+    }
+    for (let i = row - 1, j = col - 1; i >= 0 && j >= 0; i--, j--) {
+      if (board[i][j] === "Q") return false;
+    }
+    for (let i = row - 1, j = col + 1; i >= 0 && j < n; i--, j++) {
+      if (board[i][j] === "Q") return false;
+    }
+    return true;
+  }
 }
